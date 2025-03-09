@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  postgres:
+    container_name: dev_forge_postgres_container
+    image: postgres:13
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: dev_forge_db
+    ports:
+      - "5432:5432"
+    networks:
+      - dev_forge_default
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      retries: 5
+      start_period: 10s
+
+  dev_forge_server:
+    container_name: dev_forge_server_container
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./server:/server
+      - /server/node_modules
+    command: "npm start"
+    networks:
+      - dev_forge_default
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  dev_forge_app:
+    container_name: dev_forge_app_container
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./app:/app
+      - /app/node_modules
+    command: "npm run dev"
+    environment:
+      - VITE_BACKEND_URL=http://dev_forge_server:5000
+    networks:
+      - dev_forge_default
+
+  pgadmin:
+    container_name: dev_forge_pgadmin_container
+    image: dpage/pgadmin4
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: password
+      PGADMIN_LISTEN_PORT: 80
+    ports:
+      - 5050:80
+    networks:
+      - dev_forge_default
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+networks:
+  dev_forge_default:
+    driver: bridge
+
+volumes:
+  dev_forge_postgres_data:
