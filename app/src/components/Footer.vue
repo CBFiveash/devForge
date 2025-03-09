@@ -2,7 +2,7 @@
     <footer class="footer">
         <p>&copy; 2025 devForge. All rights reserved.</p>
         <p>
-            <a href="https://github.com/devForge" target="_blank" rel="noopener noreferrer">GitHub</a> |
+            <a href="https://github.com/CBFiveash/devForge" target="_blank" rel="noopener noreferrer">GitHub</a> |
             <a href="https://github.com/CBFiveash" target="_blank" rel="noopener noreferrer">Contact</a>
         </p>
     </footer>
