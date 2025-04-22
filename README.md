@@ -8,11 +8,11 @@ Learn more about the recommended Project Setup and IDE Support in the [Vue Docs 
 
 ## Code Challenge Application
 
-This is a code challenge application where users can write, test, and submit code for challenges in various programming languages. The project uses **Vue** for the frontend with Monaco Editor, **Express** for the backend, and **PostgreSQL** as the database. The application is containerized using **Docker**.
+This is a code challenge application where users can write, test, and submit code for challenges in various programming languages. The project uses **Vue** for the frontend with Ace Editor, **Express** for the backend, and **PostgreSQL** as the database. The application is containerized using **Docker**.
 
 ## Features
 
-- Code editor with syntax highlighting (Monaco Editor).
+- Code editor with syntax highlighting (Ace Editor).
 - Real-time code execution in JavaScript.
 - Submit code and receive feedback on the result.
 - Frontend and backend are separated into different Docker containers.
@@ -27,7 +27,7 @@ Ensure that you have the following installed on your machine:
 
 ## Project Structure
 
-- **Frontend** (`app`): A Vue.js app built with Vite, using Monaco Editor for code editing.
+- **Frontend** (`app`): A Vue.js app built with Vite, using Ace Editor for code editing.
 - **Backend** (`server`): A Node.js Express API that handles the backend logic and interactions with the PostgreSQL database.
 - **PostgreSQL**: A relational database to store user data and challenge information.
 - **Docker**: Containerization of the frontend, backend, and database.
