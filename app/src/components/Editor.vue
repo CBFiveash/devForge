@@ -28,7 +28,7 @@ export default {
       editor.setTheme("ace/theme/monokai");
       editor.session.setMode("ace/mode/python");
 
-      editor.setValue("// Write your code here...", -1);
+      editor.setValue("## Write your code here... \n");
 
       editor.on("change", () => {
         emit("update:modelValue", editor.getValue());
