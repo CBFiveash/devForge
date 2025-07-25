@@ -43,7 +43,18 @@ git clone <repository-url>
 cd <project-directory>
 ```
 
-## 2. Docker setup
+## 2. Install dependencies
+```bash
+cd app
+npm install
+```
+
+```bash
+cd server
+npm install
+```
+
+## 3. Docker setup
 
 This project uses Docker Compose to set up the environment for the frontend, backend, and database. Follow the steps below to get started:
 
