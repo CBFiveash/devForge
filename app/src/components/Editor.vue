@@ -27,8 +27,9 @@ export default {
 
         const editor = ace.edit(editorContainer.value);
         editor.setTheme("ace/theme/twilight");
-        editor.setShowPrintMargin(false);
-        editor.session.setMode("ace/mode/python");
+        
+        editor.session.setMode("ace/mode/javascript");
+        
         editor.setOptions({
           useSoftTabs: true,
           tabSize: 4,
@@ -36,7 +37,7 @@ export default {
           wrap: true,
         });
 
-        editor.setValue("## Write your code here... \n", -1);
+        editor.setValue("// Write your JavaScript code here...\nconsole.log('Hello, devForge!');", -1);
         editor.renderer.updateFontSize(); // force re-render
 
         editor.on("change", () => {
@@ -46,20 +47,15 @@ export default {
         editorContainer.value.editorInstance = editor;
 
         // Force proper size render
-        setTimeout(() => {
-          editor.resize(true);
-          editor.renderer.updateFontSize();
-        }, 0);
+        setTimeout(() => editor.resize(true), 0);
       });
       
-      return { editorContainer };
     });
 
     // Function to execute user code
     const runCode = () => {
       try {
         const userCode = editorContainer.value.editorInstance.getValue();
-
         let capturedOutput = "";
         const originalConsoleLog = console.log;
 
