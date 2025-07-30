@@ -20,22 +20,39 @@ export default {
     const output = ref("");
 
     onMounted(() => {
-      ace.config.set("basePath", "/node_modules/ace-builds/src-noconflict/");
-      ace.config.set("modePath", "/node_modules/ace-builds/src-noconflict/");
-      ace.config.set("workerPath", "/node_modules/ace-builds/src-noconflict/");
+      requestAnimationFrame(() => {
+        ace.config.set("basePath", "/node_modules/ace-builds/src-noconflict/");
+        ace.config.set("modePath", "/node_modules/ace-builds/src-noconflict/");
+        ace.config.set("workerPath", "/node_modules/ace-builds/src-noconflict/");
 
-      const editor = ace.edit(editorContainer.value);
-      editor.setTheme("ace/theme/monokai");
-      editor.session.setMode("ace/mode/python");
+        const editor = ace.edit(editorContainer.value);
+        editor.setTheme("ace/theme/twilight");
+        editor.setShowPrintMargin(false);
+        editor.session.setMode("ace/mode/python");
+        editor.setOptions({
+          useSoftTabs: true,
+          tabSize: 4,
+          showPrintMargin: false,
+          wrap: true,
+        });
 
-      editor.setValue("## Write your code here... \n");
+        editor.setValue("## Write your code here... \n", -1);
+        editor.renderer.updateFontSize(); // force re-render
 
-      editor.on("change", () => {
-        emit("update:modelValue", editor.getValue());
+        editor.on("change", () => {
+          emit("update:modelValue", editor.getValue());
+        });
+
+        editorContainer.value.editorInstance = editor;
+
+        // Force proper size render
+        setTimeout(() => {
+          editor.resize(true);
+          editor.renderer.updateFontSize();
+        }, 0);
       });
-
-      // Store editor instance for later use
-      editorContainer.value.editorInstance = editor;
+      
+      return { editorContainer };
     });
 
     // Function to execute user code
@@ -78,12 +95,15 @@ export default {
 .editor-container {
   position: relative;
   width: 100%;
+  height: 100%;
   max-width: 800px;
 }
 
 .editor {
   height: 300px;
   border: 1px solid #333;
+  font-family: monospace !important;
+  font-size: 14px !important;
 }
 
 .run-button {
@@ -107,4 +127,16 @@ export default {
   min-height: 50px;
   border: 1px solid #333;
 }
+</style>
+
+<style>
+.ace_editor, .ace_editor * {
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", "Droid Sans Mono", "Consolas", monospace !important; 
+  font-size: 12px !important; 
+  font-weight: 400 !important; 
+  letter-spacing: 0 !important; 
+  word-spacing: 1 !important;
+  white-space: pre !important;
+}
+
 </style>
